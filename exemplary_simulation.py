@@ -16,11 +16,20 @@ def get_rotation(i):
         return -1 * math.pi / 4
 
 
-planes = [RomanPotPlane(i * DISTANCE_BETWEEN_PLANES, get_rotation(i) * radians(),
-                        0 * micrometers(), 0 * micrometers(), HOW_MANY_STRIPS_PER_PLANE, PLANE_WIDTH, PLANE_HEIGHT)
-          for i in range(HOW_MANY_PLANES)]
+romanPot = RomanPot(name="testingRomanPot")
+for i in range(HOW_MANY_PLANES):
+    plane = RomanPotPlane(
+        z=i * DISTANCE_BETWEEN_PLANES,
+        gamma=get_rotation(i) * radians(),
+        x0=0 * micrometers(),
+        y0=0 * micrometers(),
+        how_many_strips=HOW_MANY_STRIPS_PER_PLANE,
+        width=PLANE_WIDTH,
+        height=PLANE_HEIGHT,
+    )
+    romanPot.addPlane(plane)
 
-hits = [Hit(planes[i], 60) for i in range(HOW_MANY_PLANES)]
+hits = [Hit(romanPot.planes[i], 60) for i in range(HOW_MANY_PLANES)]
 track = Track(hits)
 
 coeffs = track.solve(hll=False)

@@ -32,6 +32,19 @@ class RomanPotPlane:
         self.x_mid = x0 - self.u[0] * width / 2 - self.v[0] * height / 2
         self.y_mid = y0 - self.u[1] * width / 2 - self.v[1] * height / 2
 
+class RomanPot:
+    """
+    params:
+        name - a string representing a singular Roman Pot
+        planes - a list of RomanPotPlane objects
+    """
+    def __init__(self, name:str="RomanPot_01"):
+        self.name = name
+        self.planes = []
+
+    def addPlane(self, romanPotPlane:RomanPotPlane):
+        self.planes.append(romanPotPlane)
+
 
 class Hit:
     """
