@@ -40,3 +40,16 @@ a4 = coeffs[3][0]
 print(f"a1: {a1} a2: {a2} a3: {a3} a4: {a4}")
 
 plot_simulation([a1, a2, a3, a4], hits)
+
+
+
+
+simulatedTrack = Track.reverseSolveFromCoefficients(romanPot, a1, a2, a3, a4)
+simulatedCoeffs = simulatedTrack.solve(hll=False)
+sim_a1 = simulatedCoeffs[0][0]
+sim_a2 = simulatedCoeffs[1][0]
+sim_a3 = simulatedCoeffs[2][0]
+sim_a4 = simulatedCoeffs[3][0]
+print(f"simulated: \t\ta1: {sim_a1} a2: {sim_a2} a3: {sim_a3} a4: {sim_a4}")
+
+plot_simulation([sim_a1, sim_a2, sim_a3, sim_a4], simulatedTrack.hits)
