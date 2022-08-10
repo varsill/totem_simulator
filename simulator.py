@@ -108,3 +108,29 @@ class Track:
             return x
         else:
             return np.linalg.inv(G.T @ V_inv @ G) @ G.T @ V_inv @ U_mg
+
+    @staticmethod
+    def reverseSolveFromCoefficients(romanPot: RomanPot, a1=0, a2=0, a3=0, a4=0):
+        """
+        Creates a Track (list of Hit objects), based on the coefficients of the line equations and specifications of RomanPotPlanes.
+        | x = a1 + a3*z
+        | y = a2 + a4*z
+        """
+        generatedHits = []
+
+        for i in range(len(romanPot.planes)):
+            currentPlane = romanPot.planes[i]
+
+            z_value = currentPlane.z
+            x_value = a1 + a3 * z_value
+            y_value = a2 + a4 * z_value
+
+            #TODO Dowiedz się, która oś X i Y to która, jak się mają do osi świata i w którym z plane'ów liczyć którą oś.
+
+            generatedHits.append(
+                Hit(
+                    currentPlane, currentPlane.how_many_strips/2    # TODO oblicz tutaj w poprawny sposób na podstawie wcześniejszych danych, który z pasków powinien wykryć cząstkę
+                )
+            )
+
+        return Track(generatedHits)
