@@ -23,8 +23,7 @@ class RomanPotPlane:
         self.y0 = y0
         self.u = np.array([np.cos(gamma), np.sin(gamma)])
         # v is perpendicular to u
-        self.v = np.array([np.cos(gamma - math.pi / 2),
-                          np.sin(gamma - math.pi / 2)])
+        self.v = np.array([np.cos(gamma - math.pi / 2), np.sin(gamma - math.pi / 2)])
         self.how_many_strips = how_many_strips
         self.width = width
         self.height = height
@@ -32,17 +31,19 @@ class RomanPotPlane:
         self.x_mid = x0 - self.u[0] * width / 2 - self.v[0] * height / 2
         self.y_mid = y0 - self.u[1] * width / 2 - self.v[1] * height / 2
 
+
 class RomanPot:
     """
     params:
         name - a string representing a singular Roman Pot
         planes - a list of RomanPotPlane objects
     """
-    def __init__(self, name:str="RomanPot_01"):
+
+    def __init__(self, name: str = "RomanPot_01"):
         self.name = name
         self.planes = []
 
-    def addPlane(self, romanPotPlane:RomanPotPlane):
+    def addPlane(self, romanPotPlane: RomanPotPlane):
         self.planes.append(romanPotPlane)
 
 
@@ -88,14 +89,16 @@ class Track:
         for i, hit in enumerate(self.hits[:N]):
             z = hit.plane.z
             gamma = hit.plane.gamma
-            g = [np.cos(gamma), np.sin(gamma), z *
-                 np.cos(gamma), z * np.sin(gamma)]
+            g = [np.cos(gamma), np.sin(gamma), z * np.cos(gamma), z * np.sin(gamma)]
             G.append(g)
             U_mg.append(hit.u_mg)
             V_inv[i][i] = 1 / pow(hit.plane.resolution, 2)
+
         G = np.array(G)
+
         if hll:
             return solve_linear_equation(G, U_mg).reshape(-1, 1)
+
         U_mg = np.array(U_mg).reshape(len(U_mg), -1)
         if quantum:
             buf = multiply(G.T, V_inv)
@@ -106,6 +109,7 @@ class Track:
             x = multiply(buf, U_mg)
             x = x.reshape(len(b))
             return x
+
         else:
             return np.linalg.inv(G.T @ V_inv @ G) @ G.T @ V_inv @ U_mg
 
