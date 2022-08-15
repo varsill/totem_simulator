@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 PRECISION = 1000
-STRIPS_PLOTTING_STEP = 10
+STRIPS_PLOTTING_STEP = 20
 
 def plot_simulation(coefficients, hits):
 
@@ -64,7 +64,7 @@ def plot_simulation(coefficients, hits):
         , plane.y_mid+plane.v[1]*plane.height])
       zplane = np.array([plane.z, plane.z, plane.z, plane.z])
       vertices = [list(zip(xplane, yplane, zplane))]
-      poly = Poly3DCollection(vertices, alpha=0.2, color='g')
+      poly = Poly3DCollection(vertices, alpha=0.15, color='g')
       ax.add_collection3d(poly)
 
       for strip_no in range(0, plane.how_many_strips, STRIPS_PLOTTING_STEP):
@@ -75,7 +75,7 @@ def plot_simulation(coefficients, hits):
         xline = np.linspace(xstart, xend, PRECISION)
         yline = np.linspace(ystart, yend, PRECISION)
         zline = PRECISION*[plane.z]
-        ax.plot3D(xline, yline, zline, 'blue', alpha=0.4)
+        ax.plot3D(xline, yline, zline, 'blue', alpha=0.7)
 
 
 

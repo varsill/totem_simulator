@@ -1,7 +1,7 @@
 import numpy as np
 import math
 from common import *
-
+import matplotlib.pyplot as plt
 
 class RomanPotPlane:
 
@@ -138,3 +138,52 @@ class Track:
             )
 
         return Track(generatedHits)
+
+
+def compare_coefficients(a1, a2, a3, a4, b1, b2, b3, b4, z_start=0, z_end=1):
+  """Compares coefficients of two linear regression models. The first one is described by the following system
+  of equations:
+    x = a1*z+a3
+    y = a2*z+a4
+    The second one is described by:
+    x = b1*z+b3
+    y = b2*z+b4
+
+  The method calculates the cumulative square error between lines determined by these models, 
+  with z in range (z_start, z_end), using the euclidean distance between the points.
+  """
+  return z_end**3/3*((a1-b1)**2+(a2-b2)**2)+z_end**2*((a1-b1)*(a3-b3)+(a2-b2)*(a4-b4))+z_end*((a3-b3)**2+(a4-b4)**2) - \
+       (z_start**3/3*((a1-b1)**2+(a2-b2)**2)+z_start**2*((a1-b1)*(a3-b3)+(a2-b2)*(a4-b4))+z_start*((a3-b3)**2+(a4-b4)**2))
+
+  
+def plot_error(coeffs1, coeffs2, first_z, last_z):
+  """Plots the relation describing  
+  how the cumulative quared euclidean error between lines determined by two linear regression models changes with 
+  respect to variable z. Variable z describes the upper limit of the range, for which the error is calculated: (first_z, z)
+
+  Args:
+      coeffs1 : array of coefficients describing the first regression model
+      coeffs2 (_type_): array of coefficients describing the first regression model
+      z_start (_type_): starting poitjn
+      z_end (_type_): _description_
+  """
+  a1 = coeffs1[0]
+  a2 = coeffs1[1]
+  a3 = coeffs1[2]
+  a4 = coeffs1[3]
+
+  b1 = coeffs2[0]
+  b2 = coeffs2[1]
+  b3 = coeffs2[2]
+  b4 = coeffs2[3]
+
+
+  errors = []
+  zs = np.linspace(first_z, last_z, 100)
+  for z in zs:
+    error = compare_coefficients(a1, a2, a3, a4, b1, b2, b3, b4, first_z, z)
+    errors.append(error)
+  
+  plt.scatter(zs, errors)
+
+  
