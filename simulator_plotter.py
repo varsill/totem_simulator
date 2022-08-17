@@ -46,9 +46,9 @@ def plot_simulation(coefficients, hits):
 
   for hit in hits:
     plane = hit.plane
-    xstart = plane.lower_left_x + hit.ordering_number_of_strip / plane.resolution * plane.u[0]
+    xstart = plane.lower_left_x + hit.ordering_number_of_strip * plane.strip_width * plane.u[0]
     xend = xstart+plane.height*plane.v[0]
-    ystart = plane.lower_left_y + hit.ordering_number_of_strip / plane.resolution * plane.u[1]
+    ystart = plane.lower_left_y + hit.ordering_number_of_strip * plane.strip_width * plane.u[1]
     yend = ystart+plane.height*plane.v[1]
     xline = np.linspace(xstart, xend, PRECISION)
     yline = np.linspace(ystart, yend, PRECISION)
@@ -68,9 +68,9 @@ def plot_simulation(coefficients, hits):
       ax.add_collection3d(poly)
 
       for strip_no in range(0, plane.how_many_strips, STRIPS_PLOTTING_STEP):
-        xstart = plane.lower_left_x + strip_no / plane.resolution * plane.u[0]
+        xstart = plane.lower_left_x + strip_no * plane.strip_width * plane.u[0]
         xend = xstart+plane.height*plane.v[0]
-        ystart = plane.lower_left_y + strip_no / plane.resolution * plane.u[1]
+        ystart = plane.lower_left_y + strip_no * plane.strip_width * plane.u[1]
         yend = ystart+plane.height*plane.v[1]
         xline = np.linspace(xstart, xend, PRECISION)
         yline = np.linspace(ystart, yend, PRECISION)

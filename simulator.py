@@ -41,7 +41,7 @@ class RomanPotPlane:
         self.width = width
         self.height = height
         self.how_many_strips = how_many_strips
-        self.resolution = self.how_many_strips / self.width
+        self.strip_width = self.width / self.how_many_strips
 
 
 
@@ -70,7 +70,7 @@ class Hit:
     def __init__(self, plane, ordering_number_of_strip):
         self.plane = plane
         self.ordering_number_of_strip = ordering_number_of_strip
-        self.u_m = ordering_number_of_strip / plane.resolution
+        self.u_m = ordering_number_of_strip * plane.strip_width
         self.u_mg = self.u_m + plane.u @ np.array([plane.lower_left_x, plane.lower_left_y]).T
 
     def get_global_x_y_z(self):
@@ -105,7 +105,7 @@ class Track:
             g = [np.cos(gamma), np.sin(gamma), z * np.cos(gamma), z * np.sin(gamma)]
             G.append(g)
             U_mg.append(hit.u_mg)
-            V_inv[i][i] = 1 / pow(hit.plane.resolution, 2)
+            V_inv[i][i] = pow(hit.plane.strip_width, 2)
 
         G = np.array(G)
 
