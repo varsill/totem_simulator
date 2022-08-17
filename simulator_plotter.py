@@ -46,9 +46,9 @@ def plot_simulation(coefficients, hits):
 
   for hit in hits:
     plane = hit.plane
-    xstart = plane.x_mid+hit.ordering_number_of_strip/plane.resolution*plane.u[0]
+    xstart = plane.lower_left_x + hit.ordering_number_of_strip / plane.resolution * plane.u[0]
     xend = xstart+plane.height*plane.v[0]
-    ystart = plane.y_mid+hit.ordering_number_of_strip/plane.resolution*plane.u[1]
+    ystart = plane.lower_left_y + hit.ordering_number_of_strip / plane.resolution * plane.u[1]
     yend = ystart+plane.height*plane.v[1]
     xline = np.linspace(xstart, xend, PRECISION)
     yline = np.linspace(ystart, yend, PRECISION)
@@ -58,19 +58,19 @@ def plot_simulation(coefficients, hits):
   # PLANES
   for hit in hits:
       plane = hit.plane
-      xplane = np.array([plane.x_mid, plane.x_mid+plane.u[0]*plane.width, \
-         plane.x_mid+plane.u[0]*plane.width+plane.v[0]*plane.height, plane.x_mid+plane.v[0]*plane.height])
-      yplane = np.array([plane.y_mid, plane.y_mid+plane.u[1]*plane.width, plane.y_mid+plane.u[1]*plane.width+plane.v[1]*plane.height \
-        , plane.y_mid+plane.v[1]*plane.height])
+      xplane = np.array([plane.lower_left_x, plane.lower_left_x + plane.u[0] * plane.width, \
+                         plane.lower_left_x + plane.u[0] * plane.width + plane.v[0] * plane.height, plane.lower_left_x + plane.v[0] * plane.height])
+      yplane = np.array([plane.lower_left_y, plane.lower_left_y + plane.u[1] * plane.width, plane.lower_left_y + plane.u[1] * plane.width + plane.v[1] * plane.height \
+        , plane.lower_left_y + plane.v[1] * plane.height])
       zplane = np.array([plane.z, plane.z, plane.z, plane.z])
       vertices = [list(zip(xplane, yplane, zplane))]
       poly = Poly3DCollection(vertices, alpha=0.15, color='g')
       ax.add_collection3d(poly)
 
       for strip_no in range(0, plane.how_many_strips, STRIPS_PLOTTING_STEP):
-        xstart = plane.x_mid+strip_no/plane.resolution*plane.u[0]
+        xstart = plane.lower_left_x + strip_no / plane.resolution * plane.u[0]
         xend = xstart+plane.height*plane.v[0]
-        ystart = plane.y_mid+strip_no/plane.resolution*plane.u[1]
+        ystart = plane.lower_left_y + strip_no / plane.resolution * plane.u[1]
         yend = ystart+plane.height*plane.v[1]
         xline = np.linspace(xstart, xend, PRECISION)
         yline = np.linspace(ystart, yend, PRECISION)

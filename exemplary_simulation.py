@@ -21,8 +21,8 @@ for i in range(HOW_MANY_PLANES):
     plane = RomanPotPlane(
         z=i * DISTANCE_BETWEEN_PLANES,
         gamma=get_rotation(i) * radians(),
-        x0=0 * micrometers(),
-        y0=0 * micrometers(),
+        center_translation_x=0 * micrometers(),
+        center_translation_y=0 * micrometers(),
         how_many_strips=HOW_MANY_STRIPS_PER_PLANE,
         width=PLANE_WIDTH,
         height=PLANE_HEIGHT,
