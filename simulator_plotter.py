@@ -37,10 +37,9 @@ def plot_simulation(coefficients, hits):
   yhits = []
   zhits = []
   for hit in hits:
-      x, y, z = hit.get_global_x_y_z()
-      xhits.append(x)
-      yhits.append(y)
-      zhits.append(z)
+      xhits.append(hit.global_x)
+      yhits.append(hit.global_y)
+      zhits.append(hit.global_z)
   ax.scatter3D(xhits, yhits, zhits, c="red")
 
 

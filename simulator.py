@@ -64,16 +64,20 @@ class Hit:
     """
     params:
         plane - an object describing which roman pot plane was hit
+        ordering_number_of_strip - Startuje od 0 do max_strip-1 # TODO Dopisz więcej o tym
         u_m - the offset along the plane's u-axis (describes which plane's line was hit), with respect to the plane
     """
 
-    def __init__(self, plane, ordering_number_of_strip):
+    def __init__(self, plane, ordering_number_of_strip: int):
         self.plane = plane
         self.ordering_number_of_strip = ordering_number_of_strip
+
         self.u_m = ordering_number_of_strip * plane.strip_width
         self.u_mg = self.u_m + plane.u @ np.array([plane.lower_left_x, plane.lower_left_y]).T
+        
+        self.global_x, self.global_y, self.global_z = self.__calculate_global_cords()
 
-    def get_global_x_y_z(self):
+    def __calculate_global_cords(self):
         x = self.u_m * self.plane.u[0] + self.plane.lower_left_x
         y = self.u_m * self.plane.u[1] + self.plane.lower_left_y
         z = self.plane.z
