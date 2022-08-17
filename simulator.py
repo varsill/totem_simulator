@@ -3,22 +3,29 @@ import math
 from common import *
 import matplotlib.pyplot as plt
 
-class RomanPotPlane:
 
+class RomanPotPlane:
     """
     params:
-        gamma - tilt angle of the detector (in radians)
-        x0 - the offset along the the telescope's  x-axis (how far was the detector moved to the right of the tube center)
-        y0 - the offset along the the telescope's  y-axis (how far was the detector moved up from the tube center)
-        z0 - the offset along the telescope's z-axis (how far inside of the tube is the detector placed)
+        gamma - angle between the y axis and the strips (in radians)
+
+        center_translation - offset of the plane center from the center of the pipe
+        z - offset along the telescope (how far inside of the tube is the detector placed)
+
+        ### x0 - the offset along the the telescope's  x-axis (how far was the detector moved to the right of the tube center)
+        ### y0 - the offset along the the telescope's  y-axis (how far was the detector moved up from the tube center)
+
         how_many_strips - number of strips per plane
-        width - width of of the detector's plane, in the direction perpendicular to the strips
-        height - height of the detector's plane, paralel to the strips
+        width - width of the detector's plane (in nanometers), in the direction perpendicular to the strips
+        height - height of the detector's plane (in nanometers), paralel to the strips
     """
 
-    def __init__(self, z, gamma, x0, y0, how_many_strips, width, height):
-        self.z = z
     def __init__(self, z, gamma, center_translation_x, center_translation_y, how_many_strips, width, height):
+        """
+        u - unit vector perpendicular to the strips direction
+        v - unit vector parallel to the strips direction
+        """
+
         self.gamma = gamma
 
         self.center_translation_x = center_translation_x
