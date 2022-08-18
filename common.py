@@ -63,6 +63,7 @@ def solve_linear_equation(X, b):
 
 
 def make_symetric(X, b):
+    #TODO Postaraj się, aby działała dla macierzy prostokątnych
     n = X.shape[0]
     m = X.shape[1]
     C = np.zeros(shape=(2 * n, 2 * m))

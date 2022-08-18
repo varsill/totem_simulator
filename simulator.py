@@ -122,11 +122,11 @@ class Track:
             buf = multiply(buf, G.T)
             buf = multiply(buf, V_inv)
             x = multiply(buf, U_mg)
-            x = x.reshape(len(b))
+            x = x.reshape(len(buf))
             return x
 
         else:
-            return np.linalg.inv(G.T @ V_inv @ G) @ G.T @ V_inv @ U_mg
+            return (np.linalg.inv(G.T @ V_inv @ G) @ G.T @ V_inv @ U_mg)[:,0]
 
     @staticmethod
     def reverseSolveFromCoefficients(romanPot: RomanPot, a1=0, a2=0, a3=0, a4=0):
@@ -209,3 +209,4 @@ def plot_error(coeffs1, coeffs2, first_z, last_z):
         errors.append(error)
 
     plt.scatter(zs, errors)
+    plt.show()
