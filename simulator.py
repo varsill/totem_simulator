@@ -144,23 +144,13 @@ class Track:
             x_value = a1 + a3 * z_value
             y_value = a2 + a4 * z_value
 
-            # oblicz współrzędne w przestrzeni (u,v) w sposob odwrotny do def __calculate_global_cords(self):
-            # długość na osi u przelicz na numer paska (dzielenie bez reszty przez szerokość paska)
-
-            def __calculate_global_cords(self):
-                x = self.hit_u_cord * self.plane.u[0] + self.plane.lower_left_x
-                y = self.hit_u_cord * self.plane.u[1] + self.plane.lower_left_y
-                z = self.plane.z
-                return (x, y, z)
-
-            hit_u_cord = (x_value - currentPlane.lower_left_x) / currentPlane.u[0]
-
+            hit_u_cord = 0.5 * (x_value - currentPlane.lower_left_x) / currentPlane.u[0] + 0.5 * (y_value - currentPlane.lower_left_y) / currentPlane.u[1]
             strip_number = int(hit_u_cord / currentPlane.strip_width)
 
             generatedHits.append(
                 Hit(
                     currentPlane,
-                    strip_number,  # TODO oblicz tutaj w poprawny sposób na podstawie wcześniejszych danych, który z pasków powinien wykryć cząstkę
+                    strip_number,
                 )
             )
 
