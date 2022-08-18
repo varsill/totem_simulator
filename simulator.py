@@ -12,9 +12,6 @@ class RomanPotPlane:
         center_translation - offset of the plane center from the center of the pipe
         z - offset along the telescope (how far inside of the tube is the detector placed)
 
-        ### x0 - the offset along the the telescope's  x-axis (how far was the detector moved to the right of the tube center)
-        ### y0 - the offset along the the telescope's  y-axis (how far was the detector moved up from the tube center)
-
         how_many_strips - number of strips per plane
         width - width of the detector's plane (in nanometers), in the direction perpendicular to the strips
         height - height of the detector's plane (in nanometers), paralel to the strips
@@ -147,13 +144,23 @@ class Track:
             x_value = a1 + a3 * z_value
             y_value = a2 + a4 * z_value
 
-            # TODO Dowiedz się, która oś X i Y to która, jak się mają do osi świata i w którym z plane'ów liczyć którą oś.
+            # oblicz współrzędne w przestrzeni (u,v) w sposob odwrotny do def __calculate_global_cords(self):
+            # długość na osi u przelicz na numer paska (dzielenie bez reszty przez szerokość paska)
+
+            def __calculate_global_cords(self):
+                x = self.hit_u_cord * self.plane.u[0] + self.plane.lower_left_x
+                y = self.hit_u_cord * self.plane.u[1] + self.plane.lower_left_y
+                z = self.plane.z
+                return (x, y, z)
+
+            hit_u_cord = (x_value - currentPlane.lower_left_x) / currentPlane.u[0]
+
+            strip_number = int(hit_u_cord / currentPlane.strip_width)
 
             generatedHits.append(
                 Hit(
                     currentPlane,
-                    currentPlane.how_many_strips
-                    / 2,  # TODO oblicz tutaj w poprawny sposób na podstawie wcześniejszych danych, który z pasków powinien wykryć cząstkę
+                    strip_number,  # TODO oblicz tutaj w poprawny sposób na podstawie wcześniejszych danych, który z pasków powinien wykryć cząstkę
                 )
             )
 
