@@ -65,21 +65,22 @@ class Hit:
     params:
         plane - an object describing which roman pot plane was hit
         ordering_number_of_strip - Startuje od 0 do max_strip-1 # TODO Dopisz więcej o tym
-        u_m - the offset along the plane's u-axis (describes which plane's line was hit), with respect to the plane
+        hit_u_cord - długość od lewego-dolnego rogu do miejsca uderzenia w przestrzeni (u,v)# TODO Napisz to lepiej
+        hit_u_cord_from_global - długość od środka tuby do miejsca uderzenia w przestrzeni (u,v)# TODO Napisz to lepiej
     """
 
     def __init__(self, plane, ordering_number_of_strip: int):
         self.plane = plane
         self.ordering_number_of_strip = ordering_number_of_strip
 
-        self.u_m = ordering_number_of_strip * plane.strip_width
-        self.u_mg = self.u_m + plane.u @ np.array([plane.lower_left_x, plane.lower_left_y]).T
-        
+        self.hit_u_cord = (ordering_number_of_strip + 0.5) * plane.strip_width
+        self.hit_u_cord_from_global = self.hit_u_cord + plane.u @ np.array([plane.lower_left_x, plane.lower_left_y]).T
+
         self.global_x, self.global_y, self.global_z = self.__calculate_global_cords()
 
     def __calculate_global_cords(self):
-        x = self.u_m * self.plane.u[0] + self.plane.lower_left_x
-        y = self.u_m * self.plane.u[1] + self.plane.lower_left_y
+        x = self.hit_u_cord * self.plane.u[0] + self.plane.lower_left_x
+        y = self.hit_u_cord * self.plane.u[1] + self.plane.lower_left_y
         z = self.plane.z
         return (x, y, z)
 
@@ -108,7 +109,7 @@ class Track:
             gamma = hit.plane.gamma
             g = [np.cos(gamma), np.sin(gamma), z * np.cos(gamma), z * np.sin(gamma)]
             G.append(g)
-            U_mg.append(hit.u_mg)
+            U_mg.append(hit.hit_u_cord_from_global)
             V_inv[i][i] = pow(hit.plane.strip_width, 2)
 
         G = np.array(G)
