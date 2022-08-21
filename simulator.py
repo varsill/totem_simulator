@@ -30,16 +30,18 @@ class RomanPotPlane:
         self.z = z
 
         self.u = np.array([np.cos(gamma), np.sin(gamma)])
-        self.v = np.array([np.cos(gamma - math.pi / 2), np.sin(gamma - math.pi / 2)])
+        self.v = np.array([np.cos(gamma - math.pi / 2),
+                          np.sin(gamma - math.pi / 2)])
 
-        self.lower_left_x = center_translation_x - self.u[0] * width / 2 - self.v[0] * height / 2
-        self.lower_left_y = center_translation_y - self.u[1] * width / 2 - self.v[1] * height / 2
+        self.lower_left_x = center_translation_x - \
+            self.u[0] * width / 2 - self.v[0] * height / 2
+        self.lower_left_y = center_translation_y - \
+            self.u[1] * width / 2 - self.v[1] * height / 2
 
         self.width = width
         self.height = height
         self.how_many_strips = how_many_strips
         self.strip_width = self.width / self.how_many_strips
-
 
 
 class RomanPot:
@@ -71,7 +73,8 @@ class Hit:
         self.ordering_number_of_strip = ordering_number_of_strip
 
         self.hit_u_cord = (ordering_number_of_strip + 0.5) * plane.strip_width
-        self.hit_u_cord_from_global = self.hit_u_cord + plane.u @ np.array([plane.lower_left_x, plane.lower_left_y]).T
+        self.hit_u_cord_from_global = self.hit_u_cord + \
+            plane.u @ np.array([plane.lower_left_x, plane.lower_left_y]).T
 
         self.global_x, self.global_y, self.global_z = self.__calculate_global_cords()
 
@@ -104,7 +107,8 @@ class Track:
         for i, hit in enumerate(self.hits[:N]):
             z = hit.plane.z
             gamma = hit.plane.gamma
-            g = [np.cos(gamma), np.sin(gamma), z * np.cos(gamma), z * np.sin(gamma)]
+            g = [np.cos(gamma), np.sin(gamma), z *
+                 np.cos(gamma), z * np.sin(gamma)]
             G.append(g)
             U_mg.append(hit.hit_u_cord_from_global)
             V_inv[i][i] = pow(hit.plane.strip_width, 2)
@@ -126,7 +130,7 @@ class Track:
             return x
 
         else:
-            return (np.linalg.inv(G.T @ V_inv @ G) @ G.T @ V_inv @ U_mg)[:,0]
+            return (np.linalg.inv(G.T @ V_inv @ G) @ G.T @ V_inv @ U_mg)[:, 0]
 
     @staticmethod
     def reverseSolveFromCoefficients(romanPot: RomanPot, a1=0, a2=0, a3=0, a4=0):
@@ -144,7 +148,8 @@ class Track:
             x_value = a1 + a3 * z_value
             y_value = a2 + a4 * z_value
 
-            hit_u_cord = 0.5 * (x_value - currentPlane.lower_left_x) / currentPlane.u[0] + 0.5 * (y_value - currentPlane.lower_left_y) / currentPlane.u[1]
+            hit_u_cord = 0.5 * (x_value - currentPlane.lower_left_x) / currentPlane.u[0] + 0.5 * (
+                y_value - currentPlane.lower_left_y) / currentPlane.u[1]
             strip_number = int(hit_u_cord / currentPlane.strip_width)
 
             generatedHits.append(
@@ -205,7 +210,8 @@ def plot_error(coeffs1, coeffs2, first_z, last_z):
     errors = []
     zs = np.linspace(first_z, last_z, 100)
     for z in zs:
-        error = compare_coefficients(a1, a2, a3, a4, b1, b2, b3, b4, first_z, z)
+        error = compare_coefficients(
+            a1, a2, a3, a4, b1, b2, b3, b4, first_z, z)
         errors.append(error)
 
     plt.scatter(zs, errors)

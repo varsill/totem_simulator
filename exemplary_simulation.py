@@ -1,9 +1,10 @@
+from random import random
 from simulator import *
 from simulator_plotter import *
 from units import *
 
 DISTANCE_BETWEEN_PLANES = 600 * micrometers()
-HOW_MANY_PLANES = 8
+HOW_MANY_PLANES = 6
 HOW_MANY_STRIPS_PER_PLANE = 128
 PLANE_WIDTH = 24 * milimeters()
 PLANE_HEIGHT = 18 * milimeters()
@@ -29,7 +30,7 @@ for i in range(HOW_MANY_PLANES):
     )
     romanPot.addPlane(plane)
 
-hits = [Hit(romanPot.planes[i], 60 + i*2) for i in range(HOW_MANY_PLANES)]
+hits = [Hit(romanPot.planes[i], 60 + 10*i) for i in range(HOW_MANY_PLANES)]
 track = Track(hits)
 
 coeffs = track.solve(hll=False)
@@ -45,7 +46,7 @@ plot_simulation([a1, a2, a3, a4], hits)
 
 
 simulatedTrack = Track.reverseSolveFromCoefficients(romanPot, a1, a2, a3, a4)
-simulatedCoeffs = simulatedTrack.solve(hll=False, quantum=False)
+simulatedCoeffs = simulatedTrack.solve(hll=True, quantum=False)
 sim_a1 = simulatedCoeffs[0]
 sim_a2 = simulatedCoeffs[1]
 sim_a3 = simulatedCoeffs[2]
